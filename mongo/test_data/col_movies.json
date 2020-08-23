@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "5f3432654b995a8ca1ffaf57"
+  },
+  "title": "John Wick",
+  "year": "2014",
+  "description": "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him."
+},{
+  "_id": {
+    "$oid": "5f34334b4b995a8ca1ffaf58"
+  },
+  "title": "Joker",
+  "year": "2019",
+  "description": " In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: the Joker."
+},{
+  "_id": {
+    "$oid": "5f3433904b995a8ca1ffaf59"
+  },
+  "title": "Star Wars: Episode I - The Phantom Menace",
+  "year": "1999",
+  "description": "Two Jedi escape a hostile blockade to find allies and come across a young boy who may bring balance to the Force, but the long dormant Sith resurface to claim their old glory."
+},{
+  "_id": {
+    "$oid": "5f3d92c6dafd6c0ff28a4dd7"
+  },
+  "title": "The Gambler",
+  "year": "2014",
+  "description": "Literature professor and gambler Jim Bennett's debt causes him to borrow money from his mother and a loan shark. Further complicating his situation, is his relationship with one of his students. Will Bennett risk his life for a second chance? "
+},{
+  "_id": {
+    "$oid": "5f416ebf038a0762083aaa83"
+  },
+  "title": "The Shawshank Redemption",
+  "year": "1994",
+  "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency. "
+}]

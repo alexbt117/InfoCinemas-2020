@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+    
+    <div class="row">
+        <div class="col">
+            <h5>Change Movie details: {{selMovie.title}}</h5>
+            <hr>
+            
+            <form action="#" method="POST">
+            
+                <div class="form-group">
+                    <label>Movie title:</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the new movie title.">
+                </div>
+            
+                <div class="form-group">
+                    <label>Year of Release:</label>
+                    <input type="text" class="form-control" id="year" name="year" placeholder="Enter the new year of release.">
+                </div>
+            
+                <div class="form-group">
+                    <label>Description:</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                        placeholder="Enter the new movie description.">
+                </div>
+                <button type="submit" class="btn btn-primary">Update details</button>
+            
+            </form>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col">
+            
+            <br>
+
+            <h5>{{selMovie.title}} Screenings</h5>
+            <table>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Available Seats</th>
+                    <th>Actions</th>
+                </tr>
+
+           
+            {% for s in allScreenings %}
+                <tr>
+                    <td><a href="/purchase/{{s.id}}">{{s.scrTime}}</a></td>
+                    <td>{{s.available}}</td>
+                    <td><a href="/deleteScreening/{{s.id}}">Delete</a></td>
+                </tr>
+
+            {% endfor %}
+            </table>
+            <br>
+            <br>
+            <p><a href="/moviemanagement">Back to Movie Management</a></p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

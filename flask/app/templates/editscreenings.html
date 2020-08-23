@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <form action="#" method="POST">
+                <fieldset>
+                    <br>
+                    {{ form.csrf_token }}
+
+                    {{form.scrDay.label}}
+                    {{form.scrDay}}
+
+                    <ul>
+                        {% for err in form.scrDay.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {{form.scrMonth.label}}
+                    {{form.scrMonth}}
+
+                    <ul>
+                        {% for err in form.scrMonth.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {{form.scrYear.label}}
+                    {{form.scrYear}}
+
+                    <ul>
+                        {% for err in form.scrYear.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                    </ul>
+                    {{form.scrHours.label}}
+                    {{form.scrHours}}
+
+                    <ul>
+                        {% for err in form.scrHours.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {{form.scrMinutes.label}}
+                    {{form.scrMinutes}}
+
+                    <ul>
+                        {% for err in form.scrMinutes.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                    </ul>
+                    {{form.submit}}
+                </fieldset>
+            </form>
+        </div>
+        <div class="col">
+            <br>
+            <table border="1">
+                <th>Date & Time</th>
+                <th>Available Seats</th>
+                <th>Actions</th>
+                {% for res in screenings %}
+                <tr>
+        
+                    <td>
+                        <a href="/purchase/{{res.id}}">{{ res.scrTime }}</a>
+                    </td>
+                    <td>
+                        {{res.available}}
+                    </td>
+                    <td>
+                        <a href="/deleteScreening/{{res.id}}">Delete</a>
+                    </td>
+        
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+
+
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

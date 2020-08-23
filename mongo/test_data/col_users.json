@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "5f341709fc4cd6157d22325d"
+  },
+  "email": "admin@admin.com",
+  "name": "admin",
+  "password": "admin",
+  "category": "admin",
+  "moviesSeen": [
+    ""
+  ],
+  "mSeenTitles": [
+    ""
+  ]
+},{
+  "_id": {
+    "$oid": "5f417d424351b85d0dd26d70"
+  },
+  "email": "user@user.com",
+  "name": "alexbt",
+  "password": "user",
+  "category": "user",
+  "moviesSeen": [
+    {
+      "$oid": "5f416ebf038a0762083aaa83"
+    }
+  ],
+  "mSeenTitles": [
+    "The Shawshank Redemption"
+  ]
+}]

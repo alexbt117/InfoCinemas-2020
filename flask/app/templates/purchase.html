@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+<br>
+<h2>Purchase Tickets</h2>
+
+<form action="#" method="POST">
+    <label for="nun">Select number of tickets</label>
+
+    {% if avail <= 0 %}
+
+    <select name="num" id="num">
+        <option value=0>0</option>
+    </select>
+    {%else%}
+    <select name="num" id="num">
+        {% for i in range(1,avail+1) %}
+
+        <option value={{i}}>{{i}}</option>
+        {% endfor %}
+
+    </select>
+    {% endif %}
+
+
+    <button type="submit">Buy</button>
+</form>
+<br>
+<a href="/searchmovie">Back to search</a>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>User management Panel</h2>
+<h4>Add admin, make existing user admin or delete user from system</h4>
+
+<div class="row">
+    <div class="col">
+
+        <form method=POST action="{{ url_for('usermanagement') }}">
+            <div class="form-group">
+                <label for="InputUsername">Admins's Name</label>
+                <input type="text" class="form-control" name="username" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <label for="InputPassword">Email</label>
+                <input type="text" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" class="form-control" name="pass" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Admin</button>
+        </form>
+    </div>
+    <div class="col">
+        <br>
+        <table border="1">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+
+            {% for res in users %}
+            <tr>
+                <td>{{ res.name }}</td>
+                <td>{{ res.email }}</td>
+                <td>{{ res.category }}</td>
+                <td>
+                    <a href="/change/{{res.id}}">Make Admin</a>
+                    <a href="/deleteUser/{{res.id}}">Delete</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}

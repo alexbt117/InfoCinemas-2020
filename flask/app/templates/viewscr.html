@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+
+<br>
+<h2>Available Screenings:</h2>
+
+<div class="container">
+    <br>
+    <table border="1">
+        <th>Date & Time</th>
+        <th>Available Seats</th>
+        {% for res in screenings %}
+        <tr>
+            
+            <td align="center">
+                <a href="/purchase/{{res.id}}">{{ res.scrTime }}</a>
+            </td>
+            <td align="center">
+                {{res.available}}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}

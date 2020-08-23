@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>InfoCinemas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+
+<body>
+
+
+    <div class="container">
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/history">History</a>
+        <a href="/logout">Logout</a>
+    </div>
+        <!-- child template -->
+        {% block content %} {% endblock %}
+
+        <!-- errors -->
+        {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+        {% endif %}
+
+        <!-- messages -->
+        {% for message in get_flashed_messages() %} {{ message }} {% endfor %}
+        {% for message in messages %} {{ message }} {% endfor %}
+    </div>
+
+</body>
+
+</html>

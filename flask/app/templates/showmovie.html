@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br>
+            <h5>Movie Title:</h5>
+            <p>{{result.title}}</p>
+            <h5>Year of Release:</h5>
+            <p>{{result.year}}</p>
+            <h5>Plot:</h5>
+            <p>{{result.description}}</p>
+        </div>
+    </div>
+</div>
+<br>
+
+<p><a href="/viewscreenings/{{result.id}}">View available Screenings</a></p>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "5f3eabc0566ac58b35c87c55"
+  },
+  "movieId": {
+    "$oid": "5f3432654b995a8ca1ffaf57"
+  },
+  "scrTime": "12-12-2021 12:12",
+  "available": 0
+},{
+  "_id": {
+    "$oid": "5f3eabfc566ac58b35c87c56"
+  },
+  "movieId": {
+    "$oid": "5f3432654b995a8ca1ffaf57"
+  },
+  "scrTime": "11-11-2020 21:21",
+  "available": 42
+},{
+  "_id": {
+    "$oid": "5f3eac40566ac58b35c87c57"
+  },
+  "movieId": {
+    "$oid": "5f3432654b995a8ca1ffaf57"
+  },
+  "scrTime": "11-11-2020 21:21",
+  "available": 40
+},{
+  "_id": {
+    "$oid": "5f3eacea566ac58b35c87c58"
+  },
+  "movieId": {
+    "$oid": "5f3433904b995a8ca1ffaf59"
+  },
+  "scrTime": "20-1-2020 20:20",
+  "available": 0
+},{
+  "_id": {
+    "$oid": "5f4051c1cfa0e5885e2cca13"
+  },
+  "movieId": {
+    "$oid": "5f3432654b995a8ca1ffaf57"
+  },
+  "scrTime": "10-10-2022 10:10",
+  "available": 30
+},{
+  "_id": {
+    "$oid": "5f416edd038a0762083aaa84"
+  },
+  "movieId": {
+    "$oid": "5f416ebf038a0762083aaa83"
+  },
+  "scrTime": "30-3-2020 22:22",
+  "available": 31
+}]
