@@ -1,5 +1,5 @@
 import json
-
+import time
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from mongoengine import *
@@ -23,7 +23,7 @@ from editScr import EditScr
 app = Flask(__name__)
 
 # MongoEngine db init connection. By default:localhost
-connect("InfoCinemas",host="172.18.0.2",port=27017)
+connect("InfoCinemas",host="mongodb://localhost/InfoCinemas")
 
 # Secret key for session cookie
 app.secret_key = "infoCinemas1234"
@@ -74,7 +74,7 @@ def login():
         return "Invalid username/password combination"
 
 
-# Route for handling login page.
+# Route for handling register page.
 # Takes user data from form.
 # If username exists on db, returns error message.
 # If not, creates the user on the db with the following data (username,email,hashed given password)
@@ -198,113 +198,122 @@ def purchase(id):
                 updUH.save()
             except ValidationError:
                 return "Not enough tickets available!"
-
         flash("You have reserved " + request.form["num"] + " ticket(s)!")
-        redirect(url_for("index"))
+        return redirect(url_for("index"))
+    
 
     return render_template("purchase.html", avail=avail)
 
 
 ##===========================##
 ##====== ADMIN ACTIONS ======##
-##===========================##
-
-# Displays the administrator panel
-@app.route("/adminpanel", methods=["POST", "GET"])
-def adminpanel():
-    render_template("adminpanel.html")
-    return "Nothing yet"
+##===========================##   
 
 
 # Allows the addition of a new movie to the database
 @app.route("/moviemanagement", methods=["POST", "GET"])
 def moviemanagement():
-    if request.method == "POST":
-        in_title = request.form["title"]
-        in_year = request.form["year"]
-        in_description = request.form["description"]
-        new_movie = Movies(title=in_title, year=in_year, description=in_description)
+    if session['category'] == 'admin':
+        if request.method == "POST":
+            in_title = request.form["title"]
+            in_year = request.form["year"]
+            in_description = request.form["description"]
+            new_movie = Movies(title=in_title, year=in_year, description=in_description)
 
-        try:
-            new_movie.save()
-            print("success insert")
-        except:
-            print("There was an error inserting a movie")
+            try:
+                new_movie.save()
+                print("success insert")
+            except:
+                print("There was an error inserting a movie")
 
-    all_movies = Movies.objects()
-    return render_template("moviemanagement.html", movies=all_movies)
+        all_movies = Movies.objects()
+        return render_template("moviemanagement.html", movies=all_movies)
+    return "Action not allowed, you are not an admin!"
 
 
 # Allows the edit of the movie details and registers the new information to the database
 @app.route("/updatemovie/<string:id>", methods=["POST", "GET"])
 def updatemovie(id):
-    mScreenings = Screenings.objects(movieId=id)
-    movie = Movies.objects(id=id).get()
-    if request.method == "POST":
-        new_title = request.form["title"]
-        new_year = request.form["year"]
-        new_descr = request.form["description"]
+    if session['category'] == 'admin':
+        mScreenings = Screenings.objects(movieId=id)
+        movie = Movies.objects(id=id).get()
+        if request.method == "POST":
+            new_title = request.form["title"]
+            new_year = request.form["year"]
+            new_descr = request.form["description"]
 
-        try:
-            movie.update(title=new_title, year=new_year, description=new_descr)
-            return redirect(request.referrer)
-        except DoesNotExist:
-            return "Error updating movie details"
+            try:
+                movie.update(title=new_title, year=new_year, description=new_descr)
+                return redirect(request.referrer)
+            except DoesNotExist:
+                return "Error updating movie details"
 
-    return render_template(
-        "updatemovie.html", allScreenings=mScreenings, selMovie=movie
-    )
+        return render_template("updatemovie.html", allScreenings=mScreenings, selMovie=movie)
+    return "Action not allowed, you are not an admin!"
+
 
 
 # Removes a movie from the database
 @app.route("/deletemovie/<string:id>", methods=["POST", "GET"])
 def deletemovie(id):
-    movietoDelete = Movies.objects(id=id).get()
-    if movietoDelete:
-        movietoDelete.delete()
-        print("Deleted movie " + movietoDelete.title + " from system")
-    return redirect("/moviemanagement")
+    if session['category'] == 'admin':
+        movietoDelete = Movies.objects(id=id).get()
+        if movietoDelete:
+            movietoDelete.delete()
+            print("Deleted movie " + movietoDelete.title + " from system")
+        return redirect("/moviemanagement")
+    return "Action not allowed, you are not an admin!"
+
 
 
 # Route to edit the screenings of a movie. Allow the addition and deletion
 # of the screenings given a movie id
 @app.route("/editscreenings/<string:id>", methods=["POST", "GET"])
 def editscr(id):
-    availScr = Screenings.objects(movieId=id)
-    m_obj = Movies.objects(id=id).get()
-    mTitle = m_obj.title
-    scrForm = EditScr()
-    if scrForm.validate_on_submit():
-        newTD = "{}-{}-{} {}:{}".format(
-            scrForm.scrDay.data,
-            scrForm.scrMonth.data,
-            scrForm.scrYear.data,
-            scrForm.scrHours.data,
-            scrForm.scrMinutes.data,
-        )
-        try:
-            newScr = Screenings(
-                movieId=id, scrTime=newTD, available=50, movieTitle=mTitle
-            )
-            newScr.save()
-        except DoesNotExist:
-            return "Error adding new screening"
+    if session['category'] == 'admin':
 
-    return render_template("editscreenings.html", form=scrForm, screenings=availScr)
+        availScr = Screenings.objects(movieId=id)
+        m_obj = Movies.objects(id=id).get()
+        mTitle = m_obj.title
+        scrForm = EditScr()
+        if scrForm.validate_on_submit():
+            newTD = "{}-{}-{} {}:{}".format(
+                scrForm.scrDay.data,
+                scrForm.scrMonth.data,
+                scrForm.scrYear.data,
+                scrForm.scrHours.data,
+                scrForm.scrMinutes.data,
+            )
+            try:
+                newScr = Screenings(
+                    movieId=id, scrTime=newTD, available=50, movieTitle=mTitle
+                )
+                newScr.save()
+            except DoesNotExist:
+                return "Error adding new screening"
+
+        return render_template("editscreenings.html", form=scrForm, screenings=availScr)
+    return "Action not allowed, you are not an admin!"
+    
+
 
 
 # Route to delete registered screening of a movie given a valid screening id.
 @app.route("/deleteScreening/<string:id>", methods=["POST", "GET"])
 def deleteScreening(id):
-    scrToDelete = Screenings.objects(id=id).get()
-    if scrToDelete:
-        try:
-            scrToDelete.delete()
-            print("Deleted screening " + scrToDelete.scrTime + " from db")
-        except DoesNotExist:
-            return "Error deleting screening"
+    if session['category'] == 'admin':
+        scrToDelete = Screenings.objects(id=id).get()
+        if scrToDelete:
+            try:
+                scrToDelete.delete()
+                print("Deleted screening " + scrToDelete.scrTime + " from db")
+            except DoesNotExist:
+                return "Error deleting screening"
 
-    return redirect(request.referrer)
+        return redirect(request.referrer)
+    return "Action not allowed, you are not an admin!"
+    
+
 
 
 # When called, if the session coockie is of a user, redirects to index, which redirects to User Panel
@@ -313,9 +322,7 @@ def deleteScreening(id):
 # Admin, cannot delete Admins
 @app.route("/usermanagement", methods=["POST", "GET"])
 def usermanagement():
-    if session["category"] == "user":
-        return redirect("/")
-    else:
+    if session['category'] == 'admin':
         all_users = Users.objects()
         if request.method == "POST":
             try:
@@ -331,7 +338,10 @@ def usermanagement():
                 ).save()
                 return redirect(url_for("usermanagement"))
 
-    return render_template("usermanagement.html", users=all_users)
+        return render_template("usermanagement.html", users=all_users)
+    return "Action not allowed, you are not an admin!"
+    
+
 
 
 # Takes a user id and passes it to a query executed on the Users collection.
@@ -339,30 +349,36 @@ def usermanagement():
 # and then redirects to index, which redirects to Admin Panel.
 @app.route("/change/<string:id>", methods=["POST", "GET"])
 def change(id):
-    usertoChange = Users.objects(id=id).get()
-    if usertoChange:
-        if usertoChange.category == "user":
-            usertoChange.category = "admin"
-            usertoChange.save()
-            print("Changed user " + usertoChange.name + " to admin")
-        else:
-            return "User was already an Admin"
+    if session['category'] == 'admin':
+        usertoChange = Users.objects(id=id).get()
+        if usertoChange:
+            if usertoChange.category == "user":
+                usertoChange.category = "admin"
+                usertoChange.save()
+                print("Changed user " + usertoChange.name + " to admin")
+            else:
+                return "User was already an Admin"
 
-    return redirect("/usermanagement")
+            return redirect("/usermanagement")
 
+    return "Action not allowed, you are not an admin!"
+    
 
 # Takes a user id and passes it to a query executed on the Users collection.
 # If the id is found the object is deleted and then redirects to index,
 # which redirects to Admin Panel
 @app.route("/deleteUser/<string:id>", methods=["POST", "GET"])
 def deleteUser(id):
-    usertoDelete = Users.objects(id=id).get()
-    if usertoDelete:
-        usertoDelete.delete()
-        print("Deleted user " + usertoDelete.name + " from system")
+    if session['category'] == 'admin':
+        usertoDelete = Users.objects(id=id).get()
+        if usertoDelete:
+            usertoDelete.delete()
+            print("Deleted user " + usertoDelete.name + " from system")
 
-    return redirect("/usermanagement")
+            return redirect("/usermanagement")
 
+    return "Action not allowed, you are not an admin!"
+    
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
