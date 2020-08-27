@@ -1,5 +1,16 @@
-Τρόπος εκτέλεσης:
-
+Τρόπος εκτέλεσης: 
+	Requirements:
+	Installed: docker, docker-compose
+	
+	1) Clone or download the repository as is onto a directory on your computer.
+	2) Execute the following command in the directory where the docker-compose.yml is located: docker-compose up
+	3) In your favorite browser go to http://localhost or http://<ip address of your system>
+	
+	To login as admin: 
+	username = admin@admin.com 
+	password = admin
+	
+	
 Λειτουργίες:
 
 Περιγραφή endpoints:
