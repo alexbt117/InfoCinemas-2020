@@ -19,11 +19,14 @@ from editScr import EditScr
 ##=============================================##
 
 
+
 # app initialization
 app = Flask(__name__)
 
 # MongoEngine db init connection. By default:localhost
 connect("InfoCinemas",host="mongodb://localhost/InfoCinemas")
+#connect("InfoCinemas",host="mongodb://172.18.0.2/InfoCinemas")
+#connect("InfoCinemas",host="mongodb://172.18.0.3/InfoCinemas")
 
 # Secret key for session cookie
 app.secret_key = "infoCinemas1234"
