@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h1>Insert a Movie</h1>
+            <hr>
+
+            <form action="/moviemanagement" method="POST">
+
+                <div class="form-group">
+                    <label>Movie title:</label>
+                    <input type="text" class="form-control" id="title" name="title"
+                        placeholder="Enter the movie title." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Year of Release:</label>
+                    <input type="text" class="form-control" id="year" name="year"
+                        placeholder="Enter the year of release." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description:</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                        placeholder="Enter the movie description." required>
+                </div>
+                <button type="submit" class="btn btn-primary">Insert Movie</button>
+            </form>
+
+        </div>
+        <div class="col">
+            <h4>Movies Registered</h4>
+            <br>
+            <table border="1">
+                <tr>
+                    <th>Movie Title</th>
+                    <th>Year</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for m in movies %}
+                <tr>
+                    <td>{{ m.title }}</td>
+                    <td>{{ m.year }}</td>
+                    <td>
+                        <ul>
+                            <li><a href="/show/{{m.id}}">View</a></li>
+                            <li><a href="/updatemovie/{{m.id}}">Update</a></li>
+                            <li><a href="/editscreenings/{{m.id}}">Edit Screenings</a></li>
+                            <li><a href="/deletemovie/{{m.id}}">Delete</a></li>
+                        </ul>
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div>
+
+    {% for message in messages %} {{ message }} {% endfor %}
+
+
+
+</div>
+{% endblock %}
