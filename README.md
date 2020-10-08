@@ -1,3 +1,5 @@
+Παραδοτέο εργασίας μαθήματος Πληροφοριακών Συστημάτων στο Ακ. Ετος 2019-2020. Πρόκειται για ένα σύστημα κράτησης εισιτηρίων κινηματογράφου. Φτιαγμένο με Python 3.7, Jinja templates, Flask API και MongoDB. Yλοποιημένο σε Docker περιβάλλον μέσω docker-compose και dockerfiles.
+
 Τρόπος εκτέλεσης: 
 	Requirements:
 	Installed: docker, docker-compose
